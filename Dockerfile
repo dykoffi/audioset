@@ -1,7 +1,7 @@
 FROM dykoffi/node-serve:light as release
 
 WORKDIR /App
-COPY build ./
+COPY dist ./
 
 EXPOSE 8000
 
