@@ -58,19 +58,19 @@ export default function Signup() {
 
                 <Stack p={10} mt={30} spacing="md">
                     <TextInput value={data.name} onChange={(ev) => {
-                        setdata({ ...data, name: ev.target.value })
+                        setdata({ ...data, name: ev.target.value.trim()})
                     }} size='md' label="Name" />
                     <TextInput type={"email"} value={data.email} onChange={(ev) => {
-                        setdata({ ...data, email: ev.target.value })
+                        setdata({ ...data, email: ev.target.value.trim()})
                     }} size='md' label="Email" required />
                     <TextInput value={data.town} onChange={(ev) => {
-                        setdata({ ...data, town: ev.target.value })
+                        setdata({ ...data, town: ev.target.value.trim()})
                     }} size='md' label="City" required />
                     <TextInput type={"tel"} value={data.phone} onChange={(ev) => {
-                        setdata({ ...data, phone: ev.target.value })
+                        setdata({ ...data, phone: ev.target.value.trim()})
                     }} size='md' label="Phone" required />
                     <PasswordInput value={data.password} onChange={(ev) => {
-                        setdata({ ...data, password: ev.target.value })
+                        setdata({ ...data, password: ev.target.value})
                     }} size='md' label="Password" required />
                     <PasswordInput onChange={(ev) => {
                         setconfirmPassword(ev.target.value)
