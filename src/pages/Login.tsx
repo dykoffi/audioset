@@ -11,6 +11,7 @@ import {
     Loader,
     useMantineTheme,
     Notification,
+    Center,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
@@ -43,7 +44,7 @@ export default function Authentication() {
 
     return (
         <>
-            <Container className='h-screen' size={460} py={40}>
+            <Container className='h-screen' size={500} px={20}>
                 <form className='h-full' onSubmit={form.onSubmit((values) => dispatch(loginInvestigator(values)))}>
                     <Stack className='h-full '>
                         <Stack className='flex-1'>
@@ -76,6 +77,9 @@ export default function Authentication() {
                                 Sign in
                             </Button>
                         </Stack>
+                        <Center p={"xs"}>
+                            <Text size={'sm'} color={"dimmed"}> Designed and powered by data354</Text>
+                        </Center>
                     </Stack>
                 </form>
 
