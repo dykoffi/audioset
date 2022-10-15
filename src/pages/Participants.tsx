@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Select, Grid, Modal, useMantineTheme, TextInput, NumberInput, SegmentedControl, Loader, ActionIcon, Tooltip, Blockquote, Text, Container } from '@mantine/core';
+import { Button, Group, Stack, Select, Grid, Modal, useMantineTheme, TextInput, NumberInput, SegmentedControl, Loader, ActionIcon, Tooltip, Blockquote, Text, Container, Center } from '@mantine/core';
 import { useEffect } from 'react';
 
 import { useState } from 'react';
@@ -75,8 +75,8 @@ export default function Participants() {
   }, [investigated])
 
   return (
-    <>
-      <Stack className='h-screen px-2' justify="flex-start" spacing="xs" sx={(theme) => ({ backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], height: 300 })}>
+    <Container className='h-screen' size={500} px={20}>
+      <Stack justify="flex-start" className='h-full' spacing="xs">
         <User {...investigator} />
         <StatsSegments {...stats} />
         <Grid gutter={"xs"} align={'center'}>
@@ -98,16 +98,16 @@ export default function Participants() {
           </Grid.Col>
           <Grid.Col span={"content"}>
             <Tooltip label="Ajouter un participant">
-              <ActionIcon>
-                <IconUserPlus onClick={() => {
-                  setdata({
-                    name: "",
-                    year: 0,
-                    genre: "",
-                    town: ""
-                  })
-                  dispatch(setPopup(true))
-                }} />
+              <ActionIcon onClick={() => {
+                setdata({
+                  name: "",
+                  year: 0,
+                  genre: "",
+                  town: ""
+                })
+                dispatch(setPopup(true))
+              }}>
+                <IconUserPlus />
               </ActionIcon>
             </Tooltip>
           </Grid.Col>
@@ -146,10 +146,10 @@ export default function Participants() {
           {
             urlAudio ?
               <Group>
-                <audio id="audio" controls src={urlAudio} />
+                <audio className='flex-1' id="audio" controls src={urlAudio} />
                 <Tooltip label="Supprimer l'audio">
                   <ActionIcon>
-                    <IconSquareX size={50} onClick={() => {
+                    <IconSquareX className='opacity-50' size={50} color="red" onClick={() => {
                       dispatch(setUrlAudio(null))
                       if (currentLangage === "source") {
                         dispatch(setDataAudioSource(null))
@@ -164,7 +164,7 @@ export default function Participants() {
               <div className='text-center'><Text size={"sm"} color={"dimmed"}>Aucun audio enregistré</Text></div>
           }
         </Stack>
-        <Group p={"lg"} grow>
+        <Group py={"lg"} grow>
           <Button
             onClick={sendAudioData}
             rightIcon={<IconChecks />}
@@ -177,6 +177,9 @@ export default function Participants() {
               dispatch(getNewAudio(Number(investigated)))
             }}>Passer</Button>
         </Group>
+        <Center p={"xs"}>
+          <Text size={'sm'} color={"dimmed"}> Designed and powered by data354</Text>
+        </Center>
       </Stack>
       <Modal
         centered
@@ -222,6 +225,6 @@ export default function Participants() {
           dispatch(addInvestigated(data))
         }} >Valider</Button>
       </Modal>
-    </>
+    </Container>
   );
 }
