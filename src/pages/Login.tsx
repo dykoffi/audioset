@@ -42,9 +42,9 @@ export default function Authentication() {
 
     return (
         <>
-            <Container className='h-screen' size={500} px={20}>
+            <Container className='h-screen' size={500} px={20} pt={40}>
                 <form className='h-full' onSubmit={form.onSubmit((values) => dispatch(loginInvestigator(values)))}>
-                    <Stack className='h-full '>
+                    <Stack className='h-full'>
                         <Stack className='flex-1'>
                             <Title
                                 align="center"
@@ -76,7 +76,7 @@ export default function Authentication() {
                             </Button>
                         </Stack>
                         <Center p={"xs"}>
-                            <Text size={'sm'} color={"dimmed"}> Designed and powered by data354</Text>
+                            <Text size={'sm'} color={"dimmed"}>Designed and powered by data354</Text>
                         </Center>
                     </Stack>
                 </form>
