@@ -15,7 +15,6 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-import React, { useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState } from '../services/store';
@@ -28,7 +27,6 @@ export default function Authentication() {
             email: '',
             password: '',
         },
-
 
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),

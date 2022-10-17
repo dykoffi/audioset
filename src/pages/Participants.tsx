@@ -10,8 +10,10 @@ import { AppDispatch, RootState } from '../services/store';
 import { addInvestigated, getListInvestigated, getStatsInvestigated, setInvestigated, setPopup } from '../services/user/userSlice';
 import { getNewAudio, getNotRecordedNb, sendAudio, setCurrentLangage, setDataAudioSource, setDataAudioTarget, setUrlAudio } from '../services/audio/audioSlice';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
+import { useForm } from '@mantine/form';
 
 export default function Participants() {
+
   const theme = useMantineTheme();
   const investigator = useSelector((state: RootState) => state.user.investigator)
   const investigated = useSelector((state: RootState) => state.user.investigated)
@@ -27,16 +29,22 @@ export default function Participants() {
   const currentLangage = useSelector((state: RootState) => state.audio.currentLangage)
   const urlAudio = useSelector((state: RootState) => state.audio.urlAudio)
 
-
   const recorderControls = useAudioRecorder()
   const dispatch = useDispatch<AppDispatch>()
-  const [data, setdata] = useState({
-    name: "",
-    year: 0,
-    genre: "",
-    town: ""
-  })
-  const validData = data.year > 0 && data.town.trim().length > 0 && data.genre.trim().length > 0
+
+  const form = useForm({
+    initialValues: {
+      name: "",
+      year: 0,
+      town: "",
+      genre: "M"
+    },
+
+    validate: {
+      year: (value) => (Math.ceil(value) > 0 ? null : 'age must be great than 0')
+    },
+  });
+
   const validAudio = investigated && dataAudioSource && dataAudioTarget && currentAudio
 
   const sendAudioData = () => {
@@ -99,12 +107,6 @@ export default function Participants() {
           <Grid.Col span={"content"}>
             <Tooltip label="Ajouter un participant">
               <ActionIcon onClick={() => {
-                setdata({
-                  name: "",
-                  year: 0,
-                  genre: "",
-                  town: ""
-                })
                 dispatch(setPopup(true))
               }}>
                 <IconUserPlus />
@@ -189,41 +191,37 @@ export default function Participants() {
         overlayColor={theme.colors.gray[2]}
         onClose={() => {
           dispatch(setPopup(false))
+          form.reset()
         }}
         overlayOpacity={0.55}
         overlayBlur={3}
       >
-        <Stack spacing={"sm"}>
-          <TextInput disabled={loading} label="Nom" placeholder="Nom" value={data.name} onChange={(ev) => {
-            setdata({ ...data, name: ev.target.value })
-          }} />
-          <NumberInput disabled={loading} label="Âge" placeholder="Age" required value={data.year} onChange={(value) => {
-            setdata({ ...data, year: Number(value) })
-          }} />
-          <TextInput disabled={loading} label="Ville" placeholder="Ville" value={data.town} onChange={(ev) => {
-            setdata({ ...data, town: ev.target.value })
-          }} />
-          <SegmentedControl
-            disabled={loading}
-            color={"teal.5"}
-            value={data.genre}
-            onChange={(value) => {
-              setdata({ ...data, genre: value })
-            }}
-            data={[
-              { label: 'Homme', value: 'M' },
-              { label: 'Femme', value: 'F' },
-            ]}
-          />
-        </Stack>
-        <Group></Group>
-        <Button leftIcon={
-          loading ?
-            <Loader size={"sm"} variant="bars" color={"teal.4"} /> :
-            <IconCheck size={20} />
-        } disabled={!validData} fullWidth my={"md"} variant={"outline"} size={"md"} color={"teal.5"} onClick={() => {
-          dispatch(addInvestigated(data))
-        }} >Valider</Button>
+        <form onSubmit={form.onSubmit((values) => {
+          console.log(values);
+          dispatch(addInvestigated(values))
+        })}>
+          <Stack spacing={"sm"}>
+            <TextInput required disabled={loading} label="Nom" placeholder="Nom" {...form.getInputProps("name")} />
+            <NumberInput disabled={loading} label="Âge" placeholder="Age" required {...form.getInputProps("year")} />
+            <TextInput required disabled={loading} label="Ville" placeholder="Ville" {...form.getInputProps("town")} />
+            <SegmentedControl
+              aria-required
+              disabled={loading}
+              color={"teal.5"}
+              {...form.getInputProps('genre', { type: "checkbox" })}
+              defaultValue="M"
+              data={[
+                { label: 'Homme', value: 'M' },
+                { label: 'Femme', value: 'F' },
+              ]}
+            />
+          </Stack>
+          <Button leftIcon={
+            loading ?
+              <Loader size={"sm"} variant="bars" color={"teal.4"} /> :
+              <IconCheck size={20} />
+          } type="submit" fullWidth my={"md"} variant={"outline"} size={"md"} color={"teal.5"}>Valider</Button>
+        </form>
       </Modal>
     </Container>
   );
