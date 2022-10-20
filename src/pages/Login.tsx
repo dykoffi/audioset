@@ -14,6 +14,7 @@ import {
     Center,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -40,6 +41,10 @@ export default function Authentication() {
     const notif = useSelector((state: RootState) => state.user.notif)
     const navigate = useNavigate()
 
+    useEffect(() => {
+        dispatch(setNotif(false))
+    }, [])
+
     return (
         <>
             <Container className='h-screen' size={500} px={20} pt={40}>
@@ -59,19 +64,16 @@ export default function Authentication() {
                                 </Anchor>
                             </Text>
 
-                            <Stack p={10} mt={30} spacing="md">
+                            <Stack p={10} mt={10} spacing="md">
                                 <TextInput size='md' label="Email" {...form.getInputProps("email")} required />
                                 <PasswordInput {...form.getInputProps("password")} size='md' label="Password" required />
-                                {
-                                    notif &&
-                                    <Notification color="red" onClose={() => { dispatch(setNotif(false)) }}>
-                                        Identifiants incorrects, veuillez réessayer
-                                    </Notification>
-                                }
+                                <Notification hidden={!notif} color="red" onClose={() => { dispatch(setNotif(false)) }}>
+                                    Identifiants incorrects, veuillez réessayer
+                                </Notification>
                             </Stack>
                         </Stack>
                         <Stack px={10}>
-                            <Button type='submit' variant='outline' color={"teal.4"} mt="xl" size='md' >
+                            <Button disabled={loading} type='submit' variant='outline' color={"teal.4"} mt="xl" size='md' >
                                 Sign in
                             </Button>
                         </Stack>
