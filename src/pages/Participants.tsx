@@ -197,7 +197,6 @@ export default function Participants() {
         overlayBlur={3}
       >
         <form onSubmit={form.onSubmit((values) => {
-          console.log(values);
           dispatch(addInvestigated(values))
         })}>
           <Stack spacing={"sm"}>
@@ -216,7 +215,7 @@ export default function Participants() {
               ]}
             />
           </Stack>
-          <Button leftIcon={
+          <Button disabled={loading} leftIcon={
             loading ?
               <Loader size={"sm"} variant="bars" color={"teal.4"} /> :
               <IconCheck size={20} />
