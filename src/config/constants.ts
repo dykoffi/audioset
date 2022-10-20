@@ -1,7 +1,7 @@
 import { Cookies } from "react-cookie";
 
 export const TIME_OUT_API = 30000;
-export const API_URL = "https://audiosetapi-m3okm5mmqa-od.a.run.app";
+export const API_URL = import.meta.env.VITE_API_URL;
 export const COOKIES = new Cookies();
 export const TOKEN: any = COOKIES.get("investigator_token") || "";
 
