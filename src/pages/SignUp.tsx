@@ -60,12 +60,14 @@ export default function Signup() {
                                     Sign in
                                 </Anchor>
                             </Text>
-                            <TextInput size='md' label="Name" {...form.getInputProps("name")} required />
-                            <TextInput size='md' label="Email" {...form.getInputProps("email")} required type={"email"} />
-                            <TextInput size='md' label="City" {...form.getInputProps("town")} required />
-                            <TextInput size='md' label="Phone"  {...form.getInputProps("phone")} required type={"tel"} />
-                            <PasswordInput size='md' label="Password" {...form.getInputProps("password")} required />
-                            <PasswordInput size='md' label="Confirm Password" {...form.getInputProps("confirmPassword")} required />
+                            <Stack p={10} mt={30} spacing="md">
+                                <TextInput size='md' label="Name" {...form.getInputProps("name")} required />
+                                <TextInput size='md' label="Email" {...form.getInputProps("email")} required type={"email"} />
+                                <TextInput size='md' label="City" {...form.getInputProps("town")} required />
+                                <TextInput size='md' label="Phone"  {...form.getInputProps("phone")} required type={"tel"} />
+                                <PasswordInput size='md' label="Password" {...form.getInputProps("password")} required />
+                                <PasswordInput size='md' label="Confirm Password" {...form.getInputProps("confirmPassword")} required />
+                            </Stack>
                         </Stack>
                         <Stack px={10}>
                             <Button type='submit' variant="outline" color={"teal.4"} size='md' fullWidth >Sign up</Button>
