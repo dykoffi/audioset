@@ -1,7 +1,6 @@
-import { Button, Group, Stack, Select, Grid, Modal, useMantineTheme, TextInput, NumberInput, SegmentedControl, Loader, ActionIcon, Tooltip, Blockquote, Text, Container, Center } from '@mantine/core';
+import { Button, Group, Stack, Select, Grid, Modal, useMantineTheme, TextInput, NumberInput, SegmentedControl, Loader, ActionIcon, Tooltip, Blockquote, Text, Container, Center, Slider, Space } from '@mantine/core';
 import { useEffect } from 'react';
 
-import { useState } from 'react';
 import StatsSegments from '../components/stats';
 import User from '../components/user';
 import { IconCheck, IconChecks, IconChevronsRight, IconSquareX, IconUserPlus } from '@tabler/icons';
@@ -32,10 +31,20 @@ export default function Participants() {
   const recorderControls = useAudioRecorder()
   const dispatch = useDispatch<AppDispatch>()
 
+  const MARKS = [
+    { value: 15, label: '15' },
+    { value: 25, label: '25' },
+    { value: 35, label: '35' },
+    { value: 45, label: '45' },
+    { value: 55, label: '55' },
+    { value: 65, label: '65' },
+    { value: 70, label: '70+' },
+  ];
+
   const form = useForm({
     initialValues: {
-      name: "",
       year: 0,
+      country: "",
       town: "",
       genre: "M"
     },
@@ -94,8 +103,8 @@ export default function Participants() {
               placeholder="Selectionnez un participant"
               size='md'
               color={"teal.5"}
-              limit={3}
-              data={listInvestigated.map(elt => ({ value: elt.id_, label: `${elt.name} (${elt.year} ans, ${elt.genre}, ${elt.town})`, }))}
+              limit={5}
+              data={listInvestigated.map(elt => ({ value: elt.id_, label: `${elt.year} ans, ${elt.genre}, ${elt.town}/${elt.country}`, }))}
               searchable
               maxDropdownHeight={400}
               nothingFound="Nobody here"
@@ -200,8 +209,20 @@ export default function Participants() {
           dispatch(addInvestigated(values))
         })}>
           <Stack spacing={"sm"}>
-            <TextInput required disabled={loading} label="Nom" placeholder="Nom" {...form.getInputProps("name")} />
-            <NumberInput disabled={loading} label="Âge" placeholder="Age" required {...form.getInputProps("year")} />
+            <Text>Age</Text>
+            <Slider
+              defaultValue={20}
+              showLabelOnHover={false}
+              min={15}
+              max={70}
+              step={5}
+              marks={MARKS}
+              color={"teal.5"}
+              disabled={loading}
+              {...form.getInputProps("year")}
+            />
+            <Space />
+            <TextInput required disabled={loading} label="Pays" placeholder="Pays" {...form.getInputProps("country")} />
             <TextInput required disabled={loading} label="Ville" placeholder="Ville" {...form.getInputProps("town")} />
             <SegmentedControl
               aria-required
