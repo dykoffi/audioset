@@ -57,12 +57,12 @@ export default function Authentication() {
                             >
                                 Sign in
                             </Title>
-                            <Text color="dimmed" size="sm" align="center" mt={5}>
+                            {/* <Text color="dimmed" size="sm" align="center" mt={5}>
                                 Do not have an account yet ?{' '}
                                 <Anchor color={"teal.4"} size="sm" onClick={() => navigate("/signup")}>
                                     Create account
                                 </Anchor>
-                            </Text>
+                            </Text> */}
 
                             <Stack p={10} mt={10} spacing="md">
                                 <TextInput size='md' label="Email" {...form.getInputProps("email")} required />
