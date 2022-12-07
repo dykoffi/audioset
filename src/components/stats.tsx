@@ -62,7 +62,7 @@ export default function StatsSegments({ total, diff, data }: StatsSegmentsProps)
       <Group position="apart" align="flex-end" spacing={0}>
         <Text weight={700} color="dimmed">{stat.count} <small>audio(s)</small></Text>
         <Text color={stat.color} weight={700} size="sm" className={classes.statCount}>
-          {stat.part}%
+          {Number(stat.part) || 0}%
         </Text>
       </Group>
     </Box>
