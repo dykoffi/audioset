@@ -67,9 +67,12 @@ export default function Participants() {
 
   const saveAudio = (blob: Blob) => {
     let data = {
-      blob: blob,
+      blob: blob.slice(0, blob.size, "audio/ogg"),
       url: URL.createObjectURL(blob)
     }
+
+    console.log(data.blob);
+    
 
     if (currentLangage === "source") {
       dispatch(setDataAudioSource(data))
