@@ -83,9 +83,14 @@ export const audioSlice = createSlice({
     }
 })
 
+interface AudioBlob {
+    blob: Blob
+    url: string
+}
+
 interface sentAudio {
-    blobSource: Blob
-    blobTarget: Blob
+    blobSource: AudioBlob
+    blobTarget: AudioBlob
     audioId: string
     userId: string
     ref: string
@@ -100,12 +105,26 @@ export const getNotRecordedNb = createAsyncThunk('audio/getNotRecorded',
         })
     })
 
+export function getCleanType(type: string) {
+    let cleanType = type.match(/audio\/(\w+)/)
+    if (cleanType) {
+        return cleanType[0].replace(/audio\//, "")
+    } else {
+        return "webm"
+    }
+
+}
+
 export const sendAudio = createAsyncThunk('audio/send',
     async (data: sentAudio, { dispatch }) => {
         dispatch(setLoading(true))
         var formData = new FormData();
-        formData.append("audio", data.blobSource, data.ref);
-        formData.append("audio", data.blobTarget, data.ref);
+
+        const sourceExtension = getCleanType(data.blobSource.blob.type)
+        const targetExtension = getCleanType(data.blobTarget.blob.type)
+
+        formData.append("audio", data.blobSource.blob, data.ref.replace("mp3", sourceExtension))
+        formData.append("audio", data.blobTarget.blob, data.ref.replace("mp3", targetExtension))
         formData.append("soundId", data.audioId);
         formData.append("userId", data.userId);
 

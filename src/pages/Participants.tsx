@@ -7,7 +7,7 @@ import { IconCheck, IconChecks, IconChevronsRight, IconSquareX, IconUserPlus } f
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../services/store';
 import { addInvestigated, getListInvestigated, getStatsInvestigated, setInvestigated, setPopup } from '../services/user/userSlice';
-import { getNewAudio, getNotRecordedNb, sendAudio, setCurrentLangage, setDataAudioSource, setDataAudioTarget, setUrlAudio } from '../services/audio/audioSlice';
+import { getCleanType, getNewAudio, getNotRecordedNb, sendAudio, setCurrentLangage, setDataAudioSource, setDataAudioTarget, setUrlAudio } from '../services/audio/audioSlice';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import { useForm } from '@mantine/form';
 
@@ -58,7 +58,7 @@ export default function Participants() {
 
   const sendAudioData = () => {
     if (validAudio) {
-      dispatch(sendAudio({ blobSource: dataAudioSource.blob, blobTarget: dataAudioTarget.blob, audioId: String(currentAudio.id_), ref: String(currentAudio.ref), userId: String(investigated) }))
+      dispatch(sendAudio({ blobSource: dataAudioSource, blobTarget: dataAudioTarget, audioId: String(currentAudio.id_), ref: String(currentAudio.ref), userId: String(investigated) }))
       dispatch(setDataAudioSource(null))
       dispatch(setDataAudioTarget(null))
       dispatch(getNewAudio(investigated))
@@ -67,12 +67,9 @@ export default function Participants() {
 
   const saveAudio = (blob: Blob) => {
     let data = {
-      blob: blob.slice(0, blob.size, "audio/ogg"),
+      blob: blob,
       url: URL.createObjectURL(blob)
     }
-
-    console.log(data.blob);
-    
 
     if (currentLangage === "source") {
       dispatch(setDataAudioSource(data))
