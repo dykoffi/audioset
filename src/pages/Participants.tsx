@@ -43,7 +43,7 @@ export default function Participants() {
 
   const form = useForm({
     initialValues: {
-      year: 0,
+      year: 15,
       country: "",
       town: "",
       genre: "M"
@@ -207,11 +207,11 @@ export default function Participants() {
       >
         <form onSubmit={form.onSubmit((values) => {
           dispatch(addInvestigated(values))
+          form.reset()
         })}>
           <Stack spacing={"sm"}>
             <Text>Age</Text>
             <Slider
-              defaultValue={20}
               showLabelOnHover={false}
               min={15}
               max={70}
@@ -222,7 +222,20 @@ export default function Participants() {
               {...form.getInputProps("year")}
             />
             <Space />
-            <TextInput required disabled={loading} label="Pays" placeholder="Pays" {...form.getInputProps("country")} />
+            <Select
+              label="Pays"
+              placeholder="Pays"
+              data={[
+                { value: 'Cote d Ivoire', label: "Côte d'Ivoire" },
+                { value: 'Burkina', label: 'Burkina' },
+                { value: 'Mali', label: 'Mali' },
+                { value: 'Niger', label: 'Niger' },
+                { value: 'Guinee', label: 'Guinee' },
+                { value: 'Liberia', label: 'Liberia' },
+              ]}
+              {...form.getInputProps("country")}
+            />
+            {/* <TextInput required disabled={loading} label="Pays" placeholder="Pays" {...form.getInputProps("country")} /> */}
             <TextInput required disabled={loading} label="Ville" placeholder="Ville" {...form.getInputProps("town")} />
             <SegmentedControl
               aria-required

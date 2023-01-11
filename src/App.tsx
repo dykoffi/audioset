@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+
 import RequireAuth from "./pages/Protected";
 import Authentication from "./pages/Login";
 import Signup from "./pages/SignUp";
