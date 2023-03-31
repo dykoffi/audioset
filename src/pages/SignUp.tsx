@@ -12,14 +12,16 @@ import {
     useMantineTheme,
     Center,
     Notification,
+    Group,
+    SegmentedControl,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState } from '../services/store';
-import { addInvestigator, setNotif } from '../services/user/userSlice';
+import { addInvestigator, addTranscriptor, setNotif } from '../services/user/userSlice';
 
 export default function Signup() {
 
@@ -29,7 +31,7 @@ export default function Signup() {
 
     const loading = useSelector((state: RootState) => state.user.loading)
     const notif = useSelector((state: RootState) => state.user.notif)
-
+    const [userType, setUserType] = useState<"Transcriptor" | "Investigator">("Investigator")
 
     const form = useForm({
         initialValues: {
@@ -54,7 +56,13 @@ export default function Signup() {
     return (
         <>
             <Container className='h-screen' size={500} px={20} pt={40}>
-                <form className='h-full' onSubmit={form.onSubmit((values) => dispatch(addInvestigator({ ...values, confirmPassword: undefined })))}>
+                <form className='h-full' onSubmit={form.onSubmit((values) => {
+                    if (userType === "Investigator") {
+                        dispatch(addInvestigator({ ...values, confirmPassword: undefined }))
+                    } else {
+                        dispatch(addTranscriptor({ ...values, confirmPassword: undefined }))
+                    }
+                })}>
                     <Stack className='h-full'>
                         <Stack className='flex-1'>
                             <Title
@@ -63,21 +71,32 @@ export default function Signup() {
                             >
                                 Sign up
                             </Title>
-                            <Text color="dimmed" size="sm" align="center" mt={5}>
-                                Do you have an account already ?{' '}
-                                <Anchor color={"teal.4"} size="sm" onClick={() => navigate("/signin")}>
-                                    Sign in
-                                </Anchor>
-                            </Text>
+                            <Group p={10} position='center'>
+                                <SegmentedControl
+                                    color='teal.5'
+                                    defaultValue={userType}
+                                    data={[
+                                        { label: 'Investigator', value: 'Investigator' },
+                                        { label: 'Transcriptor', value: 'Transcriptor' },
+                                    ]}
+                                    onChange={(value: "Investigator" | "Investigator") => {
+                                        setUserType(value)
+                                    }}
+                                />
+                            </Group>
                             <Stack p={10} mt={10} spacing="md">
                                 <TextInput size='md' label="Name" {...form.getInputProps("name")} required />
                                 <TextInput size='md' label="Email" {...form.getInputProps("email")} required type={"email"} />
-                                <TextInput size='md' label="City" {...form.getInputProps("town")} required />
-                                <TextInput size='md' label="Phone"  {...form.getInputProps("phone")} required type={"tel"} />
-                                <PasswordInput size='md' label="Password" {...form.getInputProps("password")} required />
-                                <PasswordInput size='md' label="Confirm Password" {...form.getInputProps("confirmPassword")} required />
+                                <Group grow>
+                                    <TextInput label="City" {...form.getInputProps("town")} required />
+                                    <TextInput label="Phone"  {...form.getInputProps("phone")} required type={"tel"} />
+                                </Group>
+                                <Group grow>
+                                    <PasswordInput label="Password" {...form.getInputProps("password")} required />
+                                    <PasswordInput label="Confirm Password" {...form.getInputProps("confirmPassword")} required />
+                                </Group>
                                 <Notification hidden={!notif} color="red" onClose={() => { dispatch(setNotif(false)) }}>
-                                    Une erreur s'est produite, vérifiez que le mail n'est pas déjà utilisé.                                    
+                                    Une erreur s'est produite, vérifiez que le mail n'est pas déjà utilisé.
                                 </Notification>
                             </Stack>
                         </Stack>

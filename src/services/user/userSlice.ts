@@ -82,6 +82,19 @@ export const addInvestigator = createAsyncThunk("investigator/signup", async (da
         })
 })
 
+export const addTranscriptor = createAsyncThunk("transcriptor/signup", async (data: object, { dispatch }) => {
+    dispatch(setLoading(true))
+    ApiClient.post("/transcriptor", data)
+        .then(({ data: { data } }) => {
+            window.location.replace("/signup")
+        })
+        .catch((err) => {
+            dispatch(setLoading(false))
+            dispatch(setNotif(true))
+            console.log(err);
+        })
+})
+
 export const loginInvestigator = createAsyncThunk("investigator/signin", async (data: object, { dispatch }) => {
     dispatch(setLoading(true))
     ApiClient.post("/investigator/login", data)
