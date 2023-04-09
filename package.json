@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:build": "DOCKER_BUILDKIT=1 docker build -t europe-west3-docker.pkg.dev/dev-clients-307710/audioset/app ."
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
