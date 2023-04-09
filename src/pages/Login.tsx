@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { AppDispatch, RootState } from '../services/store';
 import { loginInvestigator, setNotif } from '../services/user/userSlice';
+import AppFooter from '../components/AppFooter';
 
 export default function Authentication() {
 
@@ -77,9 +78,7 @@ export default function Authentication() {
                                 Sign in
                             </Button>
                         </Stack>
-                        <Center p={"xs"}>
-                            <Text size={'sm'} color={"dimmed"}>Designed and powered by data354</Text>
-                        </Center>
+                        <AppFooter />
                     </Stack>
                 </form>
 
